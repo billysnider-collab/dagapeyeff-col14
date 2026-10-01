@@ -7,7 +7,7 @@ Authors: Chief & Mentor (independent replication), with thanks to Nick Pelling f
 
 ## Abstract
 
-The D'Agapeyeff cipher (1939, 196 digit-pairs) contains a genuine anomaly: when laid out as a 14×14 grid, the final column concentrates the rarest symbols far beyond chance (p≈9e-10). This observation was first published by Nick Pelling in January 2014 as a blog post; Pelling did not include a significance test. We independently confirm the anomaly with quantified statistics, a pre-registered permutation null (10,000 draws), and confirmation across four frozen data variants. The cipher's main body (182 pairs, 13 symbols) is flat — flatter than all 240 shuffled-English controls — and shows no bigram-level structure (mutual information, conditional entropy, repeat rates, and bigram chi-square all at null). Four pre-registered semantic readings of column 14 (embedded date, geographic coordinate, row checksum, positional trend) all returned negative against the null. Two of the four reading tests were weak by construction (binary scores); the checksum and positional tests, and the bigram discriminator, carried real falsification risk. Per a pre-registered cap rule, column 14 is declared **structurally distinct, semantically unresolved**. No solution is claimed. All code, seeds, and the self-test harness (including a regression test for a historical scoring bug) are published alongside this note for reproduction.
+The D'Agapeyeff cipher (1939, 196 digit-pairs) contains a genuine anomaly: when laid out as a 14×14 grid, the final column concentrates the rarest symbols far beyond chance (p≈9e-10). This observation was first published by numberworld (2013) and Nick Pelling (January 2014) as informal posts; MsgTrail (2026) independently quantified it. We replicate the quantification under pre-registered methods (10,000-permutation null, hashed code and seeds, confirmation across four frozen data variants) and report a negative result on four pre-registered semantic readings of column 14 (embedded date, geographic coordinate, row checksum, positional trend). The cipher's main body (182 pairs, 13 symbols) is flat — flatter than all 240 shuffled-English controls — and shows no bigram-level structure (mutual information, conditional entropy, repeat rates, and bigram chi-square all at null). Per a pre-registered cap rule, column 14 is declared **structurally distinct, semantically unresolved**. Our contribution is the pre-registered replication, the null framework, the negative semantic battery, and the published test harness — not the observation (numberworld/Pelling) nor the first quantification (MsgTrail). No solution is claimed. All code, seeds, and the self-test harness (including a regression test for a historical scoring bug) are published alongside this note for reproduction.
 
 ## 1. The object
 
@@ -15,7 +15,7 @@ Alexander D'Agapeyeff's *Codes and Ciphers* (Oxford University Press, 1939) cont
 
 ## 2. Prior work and attribution
 
-The column-14 observation is not ours. Nick Pelling documented it on 27 January 2014 ("Why I think the d'Agapeyeff cipher is diagonally transposed," Cipher Mysteries): "many of its oddities are to be found in the final right hand column," flagging the `04` and the concentration of `92` symbols occurring only in that column. Pelling's post — a blog post, not a paper — proposed a diagonal-transposition theory and included letter-frequency counts, but no significance test of the column concentration. Our split-half test does not support the diagonal-transposition hypothesis; we attribute the theory to Pelling and the test to ourselves, without claiming he was wrong — he sketched an idea, we measured one specific prediction of it.
+The column-14 observation is not ours. The earliest known spotting is a 2013 numberworld post; Nick Pelling documented it on 27 January 2014 ("Why I think the d'Agapeyeff cipher is diagonally transposed," Cipher Mysteries): "many of its oddities are to be found in the final right hand column," flagging the `04` and the concentration of `92` symbols occurring only in that column. Pelling's post — a blog post, not a paper — proposed a diagonal-transposition theory and included letter-frequency counts, but no significance test of the column concentration. MsgTrail (2026) independently quantified the concentration (p≈8.99e-10) and argued the column reads as 'empty'. Our split-half test does not support the diagonal-transposition hypothesis; we attribute the theory to Pelling and the test to ourselves, without claiming he was wrong — he sketched an idea, we measured one specific prediction of it. (Prior-art details per an independent literature survey by our collaborator Mentor; the numberworld 2013 post was not directly re-verified for this note.)
 
 A second independent effort is active: Tim Marland's 2026 research program lists "Column-14-stripped" analysis among its phases. We publish first and note it here.
 
@@ -50,7 +50,7 @@ Four reading types were pre-registered with exact formats, a 10,000-permutation 
 
 Per the pre-registered cap rule: **column 14 is structurally distinct, semantically unresolved.** No further candidates will be tested under this rule.
 
-*Methods honesty note:* R1 and R2 were weak tests by construction (binary scores; a real score of 0 yields p=1.0 mechanically). Their "confirmed" predictions are low-information. R3, R4, and the §3.2 discriminator carried genuine falsification risk. The prediction sweep is documented as a methods appendix (Appendix A), not as the finding.
+*Methods honesty note:* R1 and R2 were weak tests by construction (binary scores; a real score of 0 yields p=1.0 mechanically), and an independent audit relabelled all four predictions as retrodiction — locked after the body's flatness was known, so they confirmed method, not model. The confirmed finding is the clean negative result under a pre-registered cap, not the sweep.
 
 ### 3.5 Dead hypotheses
 
@@ -69,12 +69,14 @@ The harness (`harness/run_selftest.py`) validates the full apparatus in one comm
 ## References
 
 - D'Agapeyeff, A. *Codes and Ciphers.* Oxford University Press, 1939.
+- numberworld. Column-14 pattern noted, 2013. (Per independent literature survey; not directly re-verified for this note.)
 - Pelling, N. "Why I think the d'Agapeyeff cipher is diagonally transposed..." Cipher Mysteries, 27 Jan 2014. https://ciphermysteries.com/2014/01/27/think-dagapeyeff-cipher-diagonally-transposed
+- MsgTrail. Independent quantification of the column-14 concentration (p≈8.99e-10), 2026. (Per independent literature survey.)
 - Shulman, D. (as AB STRUSE). "The D'Agapeyeff Cryptogram: A Challenge." *The Cryptogram*, Apr/May 1952, pp. 39–40, 46.
 - Marland, T. D'Agapeyeff research program, 2026. https://www.dagapeyeffresearch.com/
 
-## Appendix A: pre-registered predictions and audit
+## Appendix A: pre-registered tests and audit
 
 (Bigam test: `build/PRE_REG_BIGRAM.md`, code `bigram_test.py` bf9f8b9d, seeds af0b4544. Column-14 readings: `build/PRE_REG_COL14_READINGS.md`, code `score_readings.py` aced6a91, seeds 0744eac5.)
 
-Predictions P-R1–P-R4 (all "no hit") and P-CAP ("structurally distinct, semantically unresolved") were confirmed. Audit: R1/R2 near-certain (weak tests, labeled as such in §3.4); R3/R4 genuinely falsifiable; bigram unigram-level confirmatory, bigram-level new. No prediction is presented as evidence beyond its actual risk. Prior knowledge was labeled already-known vs new before each run; no edits were made after any hash.
+All four column-14 reading predictions (P-R1–P-R4, "no hit") and the cap prediction P-CAP were confirmed. Audit, stated honestly: an independent review (Mentor) relabelled the predictions as retrodiction — they were locked after the body's flatness was already established, so their only falsification risk ran against already-excluded hypotheses; genuine novel predictions confirmed: 0. The R1/R2 reading tests were additionally weak by construction (binary scores). What remains valid and publishable is the *method*: pre-registered formats, hashed code, sealed seeds, permutation null, Bonferroni bar, cap rule — a clean negative result, honestly labeled. Prior knowledge was marked already-known vs new before each run; no edits were made after any hash. A parallel independent battery (144 key derivations + 54 checksum tests, Holm-corrected; 16 readings × 6 criteria vs 10,000 shuffles) reached the same cap verdict.
